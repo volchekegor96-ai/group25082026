@@ -8,7 +8,6 @@ class ShoppingCart:
                 item['quantity'] += quantity
                 item['price'] = price
                 return
-
         self.items.append({
             'name': name,
             'price': price,
