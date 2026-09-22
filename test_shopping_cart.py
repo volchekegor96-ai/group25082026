@@ -1,17 +1,4 @@
-import pytest
-from shopping_cart import ShoppingCart
-
 class TestShoppingCart:
-    @pytest.fixture
-    def cart(self):
-        return ShoppingCart()
-
-    @pytest.fixture
-    def cart_with_item(self):
-        shopping_cart = ShoppingCart()
-        shopping_cart.add_item("Apple", 10.5, 3)
-        return shopping_cart
-
     def test_init(self, cart):
         assert cart.items == []
 
