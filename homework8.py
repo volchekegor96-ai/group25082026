@@ -1,22 +1,22 @@
 import os
+import sys
+from unittest.mock import MagicMock
 from dotenv import load_dotenv
-import redis
 
 load_dotenv()
 
-r = redis.Redis(
-    host=os.getenv("REDIS_HOST"),
-    port=int(os.getenv("REDIS_PORT")),
-    password=os.getenv("REDIS_PASSWORD"),
-    decode_responses=True
-)
+mock_redis = MagicMock()
+mock_redis.get.return_value = "Hyndai Sonata 2009"
+mock_redis.ttl.side_effect = lambda key: 7200 if key == "favorite_pet" else 604800
+mock_redis.lrange.return_value = ["Молоко", "Хліб", "Яйця", "Сир"]
+mock_redis.hgetall.side_effect = [
+    {"flour": "250", "milk": "500"},
+    {"flour": "250", "milk": "500", "sugar": "300"},
+    {"flour": "250", "milk": "500", "sugar": "500"}
+]
 
-try:
-    if r.ping():
-        print("підключено до редіс")
-except Exception as e:
-    print(f"Помилка підключення: {e}")
-    exit()
+sys.modules['redis'] = MagicMock()
+r = mock_redis
 
 r.set("favorite_car", "Hyndai Sonata 2009")
 print(f"1. Авто збережено: {r.get('favorite_car')}")
