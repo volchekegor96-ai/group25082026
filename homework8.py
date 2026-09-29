@@ -1,42 +1,38 @@
 import os
-import sys
-from unittest.mock import MagicMock
 from dotenv import load_dotenv
+import redis
 
 load_dotenv()
 
-mock_redis = MagicMock()
-mock_redis.get.return_value = "Hyndai Sonata 2009"
-mock_redis.ttl.side_effect = lambda key: 7200 if key == "favorite_pet" else 604800
-mock_redis.lrange.return_value = ["Молоко", "Хліб", "Яйця", "Сир"]
-mock_redis.hgetall.side_effect = [
-    {"flour": "250", "milk": "500"},
-    {"flour": "250", "milk": "500", "sugar": "300"},
-    {"flour": "250", "milk": "500", "sugar": "500"}
-]
+r = redis.Redis(
+    host=os.getenv("REDIS_HOST", "localhost"),
+    port=int(os.getenv("REDIS_PORT", "6379")),
+    password=os.getenv("REDIS_PASSWORD", ""),
+    decode_responses=True,
+)
+print("Найулюбленіша машина")
+r.set("favorite_car", "Hyundai Sonata 2009")
+print(r.get("favorite_car"))
 
-sys.modules['redis'] = MagicMock()
-r = mock_redis
-
-r.set("favorite_car", "Hyndai Sonata 2009")
-print(f"1. Авто збережено: {r.get('favorite_car')}")
-
+print("Найулюбленіший питомець")
 r.set("favorite_pet", "Кішка Аліса, Кішка Мейсі", ex=7200)
-print(f"2. Улюбленецей збережено (Час до зникнення: {r.ttl('favorite_pet')} секонд): {r.get('favorite_pet')}")
+print(r.get("favorite_pet"), r.ttl("favorite_pet"))
 
+print("Список покупок")
 r.delete("shopping_list")
-products = ["Молоко", "Хліб", "Яйця", "Сир"]
-r.rpush("shopping_list", *products)
+r.rpush("shopping_list", "Хліб", "молоко", "яйця")
 r.expire("shopping_list", 604800)
-print(f"3. Список продуктів: {r.lrange('shopping_list', 0, -1)} (Час до зникнення: {r.ttl('shopping_list')} секонд)")
+print(r.lrange("shopping_list", 0, -1), r.ttl("shopping_list"))
 
-r.delete("cake_ingredients")
-cake_data = {"flour": "250", "milk": "500"}
-r.hset("cake_ingredients", mapping=cake_data)
-print(f"4. Початкові інгредієнти торта: {r.hgetall('cake_ingredients')}")
+print("Інградієнти для торта")
+cake_ingredients = {"flour": "250", "milk": "500"}
+r.hset("cake_recipe", mapping=cake_ingredients)
+print(r.hgetall("cake_recipe"))
 
-r.hset("cake_ingredients", "sugar", "300")
-print(f"5. Додано цукор: {r.hgetall('cake_ingredients')}")
+print("Рецепт торта")
+r.hset("cake_recipe", "sugar", "300")
+print(r.hgetall("cake_recipe"))
 
-r.hset("cake_ingredients", "sugar", "500")
-print(f"6. Виправлено цукор: {r.hgetall('cake_ingredients')}")
+print("Виправлений рецепт")
+r.hset("cake_recipe", "sugar", "500")
+print(r.hgetall("cake_recipe"))
