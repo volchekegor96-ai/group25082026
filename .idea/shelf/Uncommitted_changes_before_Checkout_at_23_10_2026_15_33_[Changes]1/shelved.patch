@@ -1,0 +1,35 @@
+Index: .idea/group25082026.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<module type=\"PYTHON_MODULE\" version=\"4\">\r\n  <component name=\"NewModuleRootManager\">\r\n    <content url=\"file://$MODULE_DIR$\">\r\n      <excludeFolder url=\"file://$MODULE_DIR$/.venv\" />\r\n    </content>\r\n    <orderEntry type=\"jdk\" jdkName=\"Python 3.11 (group25082026)\" jdkType=\"Python SDK\" />\r\n    <orderEntry type=\"sourceFolder\" forTests=\"false\" />\r\n  </component>\r\n</module>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/group25082026.iml b/.idea/group25082026.iml
+--- a/.idea/group25082026.iml	(revision a75325818e7acae8d0c0dfa3936e729e89d1bb93)
++++ b/.idea/group25082026.iml	(date 1792758780759)
+@@ -3,8 +3,9 @@
+   <component name="NewModuleRootManager">
+     <content url="file://$MODULE_DIR$">
+       <excludeFolder url="file://$MODULE_DIR$/.venv" />
++      <excludeFolder url="file://$MODULE_DIR$/venv" />
+     </content>
+-    <orderEntry type="jdk" jdkName="Python 3.11 (group25082026)" jdkType="Python SDK" />
++    <orderEntry type="jdk" jdkName="Python 3.14 (group25082026) (5)" jdkType="Python SDK" />
+     <orderEntry type="sourceFolder" forTests="false" />
+   </component>
+ </module>
+\ No newline at end of file
+Index: .env
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.env b/.env
+new file mode 100644
+--- /dev/null	(date 1792758780739)
++++ b/.env	(date 1792758780739)
+@@ -0,0 +1,2 @@
++DATABASE_URL="postgresql://neondb_owner:npg_Iu4xLl1rAEgQ@ep-green-voice-b1emhz02.c-5.eu-central-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
++DATABASE_URL_POOLED="postgresql://neondb_owner:npg_Iu4xLl1rAEgQ@ep-green-voice-b1emhz02-pooler.c-5.eu-central-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+\ No newline at end of file
